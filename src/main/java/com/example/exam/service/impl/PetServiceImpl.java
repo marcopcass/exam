@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 @Service("petService")
@@ -27,7 +24,6 @@ public class PetServiceImpl implements PetService {
     private RestTemplate rTmplt;
     @Override
     public PetDto buscarPet(String id) {
-        ResponseEntity<List<PetDto>> pDto =null;
         logger.info("inicia busqueda de pet");
         Map<String, String> params = new HashMap<>();
         params.put("petId",id);
@@ -46,6 +42,8 @@ public class PetServiceImpl implements PetService {
         ResponseEntity<String> response = rTmplt.exchange(url,HttpMethod.POST,request, String.class);
         logger.info("Response body : ",response.getBody());
         logger.info("Status code :",response.getStatusCode().value());
+        pDto.setDateCreated(new Date());
+        pDto.setTransactionId("60cc5c22-3250-4e07-a519-a6dab99c6713");
         return pDto;
     }
 }
